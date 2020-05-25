@@ -1,20 +1,72 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import {
+  StyleSheet,
+  Text, 
+  View, 
+  TextInput, 
+  Button
+} from 'react-native';
 
 export default function App() {
+  const [enteredGoal, setEnteredGoal] = useState('');
+  const [courseGoals, setCourseGoals] = useState([]);
+
+  const goalInputHandler = (enteredText) => {
+    setEnteredGoal(enteredText);
+  };
+
+  const addGoalHandler = () => {
+    setCourseGoals(currentGoals => [...courseGoals, enteredGoal]);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>To Do List</Text>
-      <Text>UNDER CONTRUCTION</Text>
+    <View style={styles.screen}>
+      <View style={styles.inputContainer}>
+        <TextInput 
+          placeholder='Somthing to do...'
+          style={styles.input}
+          onChangeText={goalInputHandler}
+          value={enteredGoal}
+        />
+        <Button title='ADD' onPress={addGoalHandler} />
+      </View>
+      <View>
+        {courseGoals.map(goal => (
+          <View key={goal} style={styles.listItem}>
+            <Text>{goal}</Text>
+          </View>
+        ))}
+      </View>
     </View>
+    
   );
-}
+};
+
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  screen: {
+    padding: 50
   },
+  inputContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  input: {
+    width: '80%',
+    borderColor: 'black', 
+    borderWidth: 1,
+    padding: 10
+  },
+  listItem: {
+    padding: 10,
+    marginVertical: 10,
+    backgroundColor: '#ccc',
+    borderColor: 'black',
+    borderWidth: 1
+  }
 });
+
+//make sure to use camelCase when defining style attributes.
+//every view uses flexbox as a default and organizes children in a column.
+//when you insert an inline style use extra curly braces <View style={{ padding: 50 }}> 
