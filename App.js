@@ -5,42 +5,42 @@ import ToDoItem from './components/ToDoItem';
 import ToDoInput from './components/ToDoInput';
 
 export default function App() {
-  const [courseGoals, setCourseGoals] = useState([]);
+  const [toDos, setToDos] = useState([]);
   const [isAddMode, setIsAddMode] = useState(false);
 
-  const addToDo = (goalTitle) => {
-    setCourseGoals((currentGoals) => [
-      ...currentGoals,
-      { id: Math.random().toString(), value: goalTitle },
+  const addToDo = (toDoTitle) => {
+    setToDos((currentToDos) => [
+      ...currentToDos,
+      { id: Math.random().toString(), value: toDoTitle },
     ]);
     setIsAddMode(false);
   };
 
-  const removeGoalHandler = (goalId) => {
-    setCourseGoals((currentGoals) => {
-      return currentGoals.filter((goal) => goal.id !== goalId);
+  const deleteToDo = (goalId) => {
+    setToDos((currentToDos) => {
+      return currentToDos.filter((goal) => goal.id !== goalId);
     });
   };
 
-  const cancelGoalAdditionHandler = () => {
+  const cancelTodo = () => {
     setIsAddMode(false);
   };
 
   return (
     <View style={styles.screen}>
-      <Button title="Add New Goal" onPress={() => setIsAddMode(true)} />
+      <Button title="Add a task" onPress={() => setIsAddMode(true)} />
       <ToDoInput
         visible={isAddMode}
-        onAddGoal={addToDo}
-        onCancel={cancelGoalAdditionHandler}
+        onAddToDo={addToDo}
+        onCancel={cancelTodo}
       />
       <FlatList
         keyExtractor={(item, index) => item.id}
-        data={courseGoals}
+        data={toDos}
         renderItem={(itemData) => (
           <ToDoItem
             id={itemData.item.id}
-            onDelete={removeGoalHandler}
+            onDelete={deleteToDo}
             title={itemData.item.value}
           />
         )}
