@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Button, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Button, FlatList, AsyncStorage } from 'react-native';
 
 import ToDoItem from './components/ToDoItem';
 import ToDoInput from './components/ToDoInput';
@@ -7,6 +7,25 @@ import ToDoInput from './components/ToDoInput';
 export default function App() {
   const [toDos, setToDos] = useState([]);
   const [isAddMode, setIsAddMode] = useState(false);
+
+  const loadToDos = async () => {
+    const toDoData = await AsyncStorage.getItem('@ToDoListStore:ToDos');
+    if (toDoData) {
+      const toDos = JSON.parse(toDoData);
+      setToDos(toDos);
+    }
+  };
+
+  // Load toDos here
+  useEffect(() => {
+    if (toDos.length) return;
+    loadToDos();
+  }, []);
+
+  // Save toDos
+  useEffect(() => {
+    AsyncStorage.setItem('@ToDoListStore:ToDos', JSON.stringify(toDos));
+  }, [toDos]);
 
   const addToDo = (toDoTitle) => {
     setToDos((currentToDos) => [
