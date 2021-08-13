@@ -1,11 +1,11 @@
 {
   "expo": {
     "name": "to-do-list",
+    "description": "A simple to do list",
     "slug": "to-do-list",
     "platforms": [
       "ios",
-      "android",
-      "web"
+      "android"
     ],
     "version": "1.0.0",
     "orientation": "portrait",
