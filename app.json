@@ -23,6 +23,13 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.danshrout.todolist",
+      "versionCode": 1,
+      "permissions": [
+        "CAMERA"
+      ]
     }
   }
 }
