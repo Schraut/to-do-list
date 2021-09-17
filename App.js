@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Button, FlatList, AsyncStorage } from 'react-native';
-
+// Redux Provider
+import { Provider } from 'react-redux';
+// Redux Store
+import { configureStore } from './redux/store';
+// Components
 import ToDoItem from './components/ToDoItem';
 import ToDoInput from './components/ToDoInput';
 
@@ -46,25 +50,27 @@ export default function App() {
   };
 
   return (
-    <View style={styles.screen}>
-      <Button title="Add a task" onPress={() => setIsAddMode(true)} />
-      <ToDoInput
-        visible={isAddMode}
-        onAddToDo={addToDo}
-        onCancel={cancelTodo}
-      />
-      <FlatList
-        keyExtractor={(item, index) => item.id}
-        data={toDos}
-        renderItem={(itemData) => (
-          <ToDoItem
-            id={itemData.item.id}
-            onDelete={deleteToDo}
-            title={itemData.item.value}
-          />
-        )}
-      />
-    </View>
+    <Provider store={configureStore()}>
+      <View style={styles.screen}>
+        <Button title="Add a task" onPress={() => setIsAddMode(true)} />
+        <ToDoInput
+          visible={isAddMode}
+          onAddToDo={addToDo}
+          onCancel={cancelTodo}
+        />
+        <FlatList
+          keyExtractor={(item, index) => item.id}
+          data={toDos}
+          renderItem={(itemData) => (
+            <ToDoItem
+              id={itemData.item.id}
+              onDelete={deleteToDo}
+              title={itemData.item.value}
+            />
+          )}
+        />
+      </View>
+    </Provider>
   );
 }
 
